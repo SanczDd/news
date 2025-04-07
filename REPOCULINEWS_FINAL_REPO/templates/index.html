@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CuliacanaZO News</title>
+    <link rel="icon" type="image/x-icon" href="/templates/favicon.ico">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f4f4;
+            padding: 2rem;
+            color: #333;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            color: #bb0000;
+            text-align: center;
+        }
+        .btn {
+            display: block;
+            background: #bb0000;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background: #990000;
+        }
+        .result {
+            margin-top: 1.5rem;
+        }
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>📰 CuliacanaZO News</h1>
+        <p>Bienvenido a la redacción informativa digital.</p>
+        <form method="POST">
+            <button class="btn" type="submit">🔗 Generar enlace privado</button>
+        </form>
+        {% if enlace and monitor %}
+        <div class="result">
+            <label>📤 Enlace para compartir:</label>
+            <input type="text" readonly value="{{ enlace }}">
+            <label>🕵️ Enlace para monitoreo (PIN: 1215):</label>
+            <input type="text" readonly value="{{ monitor }}">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
